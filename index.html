@@ -30,19 +30,49 @@
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .cta {
+    footer {
       text-align: center;
-      margin: 2rem;
+      padding: 1rem;
+      font-size: 0.8rem;
+      color: #666;
     }
-    form input[type="email"] {
+
+    /* Modal overlay styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal-content {
+      background: white;
+      padding: 2.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 350px;
+      position: relative;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+    }
+    .modal-content p {
+      margin-bottom: 1.5rem;
+    }
+    .modal-content form input[type="email"] {
       padding: 0.8rem;
       font-size: 1rem;
       width: 250px;
       border-radius: 6px;
       border: 1px solid #ccc;
       margin-right: 0.5rem;
+      margin-bottom: 1rem;
     }
-    form button {
+    .modal-content form button {
       padding: 0.8rem 1.5rem;
       font-size: 1rem;
       border: none;
@@ -51,14 +81,21 @@
       color: white;
       cursor: pointer;
     }
-    form button:hover {
+    .modal-content form button:hover {
       background: #003d99;
     }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.8rem;
-      color: #666;
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      color: #888;
+      cursor: pointer;
+    }
+    .close-btn:hover {
+      color: #0052cc;
     }
   </style>
 </head>
@@ -70,21 +107,39 @@
   </header>
 
   <!-- Mockup image -->
-  <img src="jira-mock.png" alt="Jira AI Estimation Mockup" class="mockup">
+  <div style="height: calc(100% - 100px); overflow: hidden; position: relative;">
+    <img src="jira-mock.png" alt="Jira AI Estimation Mockup" class="mockup"
+      style="display: block; position: relative; top: -50px;">
+  </div>
 
-  <!-- CTA -->
-  <div class="cta">
-    <h2>Join the Waitlist</h2>
-    <p>Be the first to get access when we launch.</p>
-    <form action="https://formspree.io/f/mkgveqyk" method="POST">
-      <input type="email" name="email" placeholder="Enter your email" required>
-      <button type="submit">Notify Me</button>
-    </form>
+  <!-- Modal paywall overlay -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal" aria-label="Close">&times;</button>
+      <h2>Join the Waitlist</h2>
+      <p>Be the first to get access when we launch.</p>
+      <form action="https://formspree.io/f/mkgveqyk" method="POST" id="waitlistForm">
+        <input type="email" name="email" placeholder="Enter your email" required>
+        <br>
+        <button type="submit">Notify Me</button>
+      </form>
+    </div>
   </div>
 
   <footer>
     © 2025 StoryPoint AI | Contact: youremail@example.com
   </footer>
+
+  <script>
+    // Optionally, require email submission before allowing close:
+    document.getElementById('closeModal').onclick = function() {
+      document.getElementById('modalOverlay').style.display = 'none';
+    };
+    document.getElementById('waitlistForm').onsubmit = function() {
+      document.getElementById('modalOverlay').style.display = 'none';
+      // Allow form submission to continue
+    };
+  </script>
 
 </body>
 </html>
